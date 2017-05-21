@@ -29,122 +29,92 @@
 package ch.jamiete.mcping;
 
 import java.util.List;
+import lombok.Getter;
 
 /**
- * References:
- * http://wiki.vg/Server_List_Ping
+ * References: http://wiki.vg/Server_List_Ping
  * https://gist.github.com/thinkofdeath/6927216
  */
+@Getter
 public class MinecraftPingReply {
-
-    private Description description;
-    private Players players;
-    private Version version;
-    private String favicon;
 
     /**
      * @return the MOTD
      */
-    public Description getDescription() {
-        return this.description;
-    }
+    private Description description;
 
     /**
      * @return @{link Players}
      */
-    public Players getPlayers() {
-        return this.players;
-    }
+    private Players players;
 
     /**
      * @return @{link Version}
      */
-    public Version getVersion() {
-        return this.version;
-    }
+    private Version version;
 
     /**
      * @return Base64 encoded favicon image
      */
-    public String getFavicon() {
-        return this.favicon;
-    }
-    
+    private String favicon;
+
+    @Getter
     public class Description {
+
+        /**
+         * @return Server description text
+         */
         private String text;
-    	
-    	/**
-    	 * @return Server description text
-    	 */
-    	public String getText() {
-            return this.text;
-    	}
+
     }
 
+    @Getter
     public class Players {
-        private int max;
-        private int online;
-        private List<Player> sample;
 
         /**
          * @return Maximum player count
          */
-        public int getMax() {
-            return this.max;
-        }
+        private int max;
 
         /**
          * @return Online player count
          */
-        public int getOnline() {
-            return this.online;
-        }
+        private int online;
 
         /**
          * @return List of some players (if any) specified by server
          */
-        public List<Player> getSample() {
-            return this.sample;
-        }
+        private List<Player> sample;
+
     }
 
+    @Getter
     public class Player {
-        private String name;
-        private String id;
 
         /**
          * @return Name of player
          */
-        public String getName() {
-            return this.name;
-        }
+        private String name;
 
         /**
          * @return Unknown
          */
-        public String getId() {
-            return this.id;
-        }
+        private String id;
 
     }
 
+    @Getter
     public class Version {
-        private String name;
-        private int protocol;
 
         /**
          * @return Version name (ex: 13w41a)
          */
-        public String getName() {
-            return this.name;
-        }
-
+        private String name;
         /**
          * @return Protocol version
          */
-        public int getProtocol() {
-            return this.protocol;
-        }
+        private int protocol;
+
     }
 
 }
