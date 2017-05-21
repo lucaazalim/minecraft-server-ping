@@ -48,7 +48,7 @@ public class MinecraftPing {
      * @throws IOException
      */
     public MinecraftPingReply getPing(final String hostname) throws IOException {
-        return this.getPing(new MinecraftPingOptions().setHostname(hostname));
+        return this.getPing(new MinecraftPingOptions().hostname(hostname));
     }
 
     /**
@@ -60,14 +60,14 @@ public class MinecraftPing {
      */
     public MinecraftPingReply getPing(final MinecraftPingOptions options) throws IOException {
 
-        Preconditions.checkNotNull(options.getHostname(), "Hostname cannot be null.");
-        Preconditions.checkNotNull(options.getPort(), "Hostname cannot be null.");
+        Preconditions.checkNotNull(options.hostname(), "Hostname cannot be null.");
+        Preconditions.checkNotNull(options.port(), "Hostname cannot be null.");
 
         String json;
 
         try (final Socket socket = new Socket()) {
 
-            socket.connect(new InetSocketAddress(options.getHostname(), options.getPort()), options.getTimeout());
+            socket.connect(new InetSocketAddress(options.hostname(), options.port()), options.timeout());
 
             try (DataInputStream in = new DataInputStream(socket.getInputStream())) {
                 try (DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
@@ -78,9 +78,9 @@ public class MinecraftPing {
 
                             handshake.writeByte(MinecraftPingUtil.PACKET_HANDSHAKE);
                             MinecraftPingUtil.writeVarInt(handshake, MinecraftPingUtil.PROTOCOL_VERSION);
-                            MinecraftPingUtil.writeVarInt(handshake, options.getHostname().length());
-                            handshake.writeBytes(options.getHostname());
-                            handshake.writeShort(options.getPort());
+                            MinecraftPingUtil.writeVarInt(handshake, options.hostname().length());
+                            handshake.writeBytes(options.hostname());
+                            handshake.writeShort(options.port());
                             MinecraftPingUtil.writeVarInt(handshake, MinecraftPingUtil.STATUS_HANDSHAKE);
 
                             MinecraftPingUtil.writeVarInt(out, handshake_bytes.size());
@@ -103,7 +103,7 @@ public class MinecraftPing {
 
                             byte[] data = new byte[length];
                             in.readFully(data);
-                            json = new String(data, options.getCharset());
+                            json = new String(data, options.charset());
 
                             //> Ping
                             out.writeByte(0x09); // Size of packet
