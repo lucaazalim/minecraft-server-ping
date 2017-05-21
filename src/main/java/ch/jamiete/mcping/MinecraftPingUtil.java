@@ -34,10 +34,11 @@ import java.io.IOException;
 
 public class MinecraftPingUtil {
 
-    public static byte PACKET_HANDSHAKE = 0x00, PACKET_STATUSREQUEST = 0x00,
+    public static final byte PACKET_HANDSHAKE = 0x00,
+            PACKET_STATUSREQUEST = 0x00,
             PACKET_PING = 0x01;
-    public static int PROTOCOL_VERSION = 4;
-    public static int STATUS_HANDSHAKE = 1;
+    public static final int PROTOCOL_VERSION = 4;
+    public static final int STATUS_HANDSHAKE = 1;
 
     public static void io(final boolean b, final String m) throws IOException {
         if (b) {
