@@ -30,12 +30,16 @@ package ch.jamiete.mcping;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.chat.ComponentSerializer;
 
 public class MinecraftPing {
 
@@ -124,7 +128,15 @@ public class MinecraftPing {
             }
         }
 
-        return GSON.fromJson(json, MinecraftPingReply.class);
+        JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+        JsonObject descriptionJsonObject = jsonObject.get("description").getAsJsonObject();
+
+        if (descriptionJsonObject.has("extra")) {
+            descriptionJsonObject.addProperty("text", new TextComponent(ComponentSerializer.parse(descriptionJsonObject.get("extra").getAsJsonArray().toString())).toLegacyText());
+            jsonObject.add("description", descriptionJsonObject);
+        }
+
+        return GSON.fromJson(jsonObject, MinecraftPingReply.class);
     }
 
 }
