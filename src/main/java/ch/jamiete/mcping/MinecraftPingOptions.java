@@ -28,21 +28,26 @@
  */
 package ch.jamiete.mcping;
 
+import com.google.common.base.Charsets;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 
 /**
  * Storage class for {@link MinecraftPing} options.
  */
 @Getter
-@Setter
-@Accessors(fluent = true)
+@Builder
 public class MinecraftPingOptions {
 
-    private String hostname;
-    private int port = 25565;
-    private int timeout = 2000;
-    private String charset = "UTF-8";
+    private final String hostname, charset;
+    private final int port, timeout;
+
+    public static class MinecraftPingOptionsBuilder {
+
+        private int port = 25565;
+        private int timeout = 2000;
+        private String charset = Charsets.UTF_8.name();
+
+    }
 
 }
