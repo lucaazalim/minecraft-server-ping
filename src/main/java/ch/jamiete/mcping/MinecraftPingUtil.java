@@ -31,6 +31,7 @@ package ch.jamiete.mcping;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 public class MinecraftPingUtil {
 
@@ -39,6 +40,19 @@ public class MinecraftPingUtil {
             PACKET_PING = 0x01;
     public static final int PROTOCOL_VERSION = 4;
     public static final int STATUS_HANDSHAKE = 1;
+
+    public static final char COLOR_CHAR = '\u00A7';
+    private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf(COLOR_CHAR) + "[0-9A-FK-OR]");
+
+    /**
+     * Strips the given message of all color codes
+     *
+     * @param input String to strip of color
+     * @return A copy of the input string, without any coloring
+     */
+    public static String stripColors(final String input) {
+        return input == null ? null : STRIP_COLOR_PATTERN.matcher(input).replaceAll("");
+    }
 
     public static void io(final boolean b, final String m) throws IOException {
         if (b) {
