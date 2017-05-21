@@ -49,8 +49,8 @@ public class MinecraftPing {
      * @return {@link MinecraftPingReply}
      * @throws IOException
      */
-    public MinecraftPingReply getPing(final String hostname) throws IOException {
-        return this.getPing(MinecraftPingOptions.builder().hostname(hostname).build());
+    public static MinecraftPingReply getPing(final String hostname) throws IOException {
+        return getPing(MinecraftPingOptions.builder().hostname(hostname).build());
     }
 
     /**
@@ -60,7 +60,7 @@ public class MinecraftPing {
      * @return {@link MinecraftPingReply}
      * @throws IOException
      */
-    public MinecraftPingReply getPing(final MinecraftPingOptions options) throws IOException {
+    public static MinecraftPingReply getPing(final MinecraftPingOptions options) throws IOException {
 
         Preconditions.checkNotNull(options.getHostname(), "Hostname cannot be null.");
         Preconditions.checkNotNull(options.getPort(), "Hostname cannot be null.");
