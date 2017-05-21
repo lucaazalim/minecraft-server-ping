@@ -41,6 +41,9 @@
                                 <includes>
                                     <include>br.com.azalim:core</include>
                                 </includes>
+                                <excludes>
+                                    <exclude>org.twitter4j:twitter4j-core</exclude>
+                                </excludes>
                             </artifactSet>
                         </configuration>
                     </execution>
