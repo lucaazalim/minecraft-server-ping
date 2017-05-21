@@ -66,6 +66,8 @@ public class MinecraftPingReply {
          */
         private String text;
 
+        private transient final String strippedText = MinecraftPingUtil.stripColors(this.text);
+
     }
 
     @Getter
