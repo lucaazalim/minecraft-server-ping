@@ -39,6 +39,8 @@ import java.net.Socket;
 
 public class MinecraftPing {
 
+    private static final Gson GSON = new Gson();
+
     /**
      * Fetches a {@link MinecraftPingReply} for the supplied hostname.
      * <b>Assumed timeout of 2s and port of 25565.</b>
@@ -122,7 +124,7 @@ public class MinecraftPing {
             }
         }
 
-        return new Gson().fromJson(json, MinecraftPingReply.class);
+        return GSON.fromJson(json, MinecraftPingReply.class);
     }
 
 }
