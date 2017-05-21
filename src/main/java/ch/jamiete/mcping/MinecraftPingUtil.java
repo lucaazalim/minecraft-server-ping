@@ -39,12 +39,6 @@ public class MinecraftPingUtil {
     public static int PROTOCOL_VERSION = 4;
     public static int STATUS_HANDSHAKE = 1;
 
-    public static void validate(final Object o, final String m) {
-        if (o == null) {
-            throw new RuntimeException(m);
-        }
-    }
-
     public static void io(final boolean b, final String m) throws IOException {
         if (b) {
             throw new IOException(m);
@@ -52,8 +46,8 @@ public class MinecraftPingUtil {
     }
 
     /**
-     * @author thinkofdeath
-     * See: https://gist.github.com/thinkofdeath/e975ddee04e9c87faf22
+     * @author thinkofdeath See:
+     * https://gist.github.com/thinkofdeath/e975ddee04e9c87faf22
      */
     public static int readVarInt(DataInputStream in) throws IOException {
         int i = 0;
@@ -63,20 +57,22 @@ public class MinecraftPingUtil {
 
             i |= (k & 0x7F) << j++ * 7;
 
-            if (j > 5)
+            if (j > 5) {
                 throw new RuntimeException("VarInt too big");
+            }
 
-            if ((k & 0x80) != 128)
+            if ((k & 0x80) != 128) {
                 break;
+            }
         }
 
         return i;
     }
 
     /**
-     * @author thinkofdeath
-     * See: https://gist.github.com/thinkofdeath/e975ddee04e9c87faf22
-     * @throws IOException 
+     * @author thinkofdeath See:
+     * https://gist.github.com/thinkofdeath/e975ddee04e9c87faf22
+     * @throws IOException
      */
     public static void writeVarInt(DataOutputStream out, int paramInt) throws IOException {
         while (true) {
