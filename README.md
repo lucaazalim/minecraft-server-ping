@@ -28,6 +28,13 @@ Configuration is provided through the `MinecraftPingOptions` class. This class p
 MinecraftServerPing is very easy to use and implement into any project. Simply clone the repo, compile the code and add it to your build path. Coding with it is as simple as this too:
 
 ```java
-MinecraftPingReply data = new MinecraftPing().getPing(new MinecraftPingOptions().setHostname("example.com").setPort(25565));
+
+MinecraftPingOptions options = MinecraftPingOptions.builder()
+  .hostname("example.com")
+  .port(25565)
+  .build();
+
+MinecraftPingReply data = MinecraftPing.getPing(options);      
 System.out.println(data.getDescription() + "  --  " + data.getPlayers().getOnline() + "/" + data.getPlayers().getMax());
+
 ```
