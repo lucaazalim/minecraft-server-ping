@@ -46,7 +46,7 @@ public class MinecraftPingOptions {
 
         private int port = 25565;
         private int timeout = 2000;
-        private String charset = Charsets.UTF_8.name();
+        private String charset = Charsets.UTF_8.displayName();
 
     }
 
