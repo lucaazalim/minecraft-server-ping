@@ -30,12 +30,14 @@ package ch.jamiete.mcping;
 
 import java.util.List;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * References: http://wiki.vg/Server_List_Ping
  * https://gist.github.com/thinkofdeath/6927216
  */
 @Getter
+@ToString
 public class MinecraftPingReply {
 
     /**
@@ -59,6 +61,7 @@ public class MinecraftPingReply {
     private String favicon;
 
     @Getter
+    @ToString
     public class Description {
 
         /**
@@ -73,6 +76,7 @@ public class MinecraftPingReply {
     }
 
     @Getter
+    @ToString
     public class Players {
 
         /**
@@ -93,6 +97,7 @@ public class MinecraftPingReply {
     }
 
     @Getter
+    @ToString
     public class Player {
 
         /**
@@ -108,6 +113,7 @@ public class MinecraftPingReply {
     }
 
     @Getter
+    @ToString
     public class Version {
 
         /**
