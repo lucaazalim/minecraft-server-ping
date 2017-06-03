@@ -35,11 +35,13 @@ import lombok.Getter;
 /**
  * Storage class for {@link MinecraftPing} options.
  */
-@Getter
 @Builder
 public class MinecraftPingOptions {
 
+    @Getter
     private final String hostname, charset;
+
+    @Getter
     private final int port, timeout;
 
     public static class MinecraftPingOptionsBuilder {
@@ -47,7 +49,6 @@ public class MinecraftPingOptions {
         private int port = 25565;
         private int timeout = 2000;
         private String charset = Charsets.UTF_8.displayName();
-
     }
 
 }

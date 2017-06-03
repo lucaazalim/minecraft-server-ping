@@ -40,21 +40,27 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
+import org.xbill.DNS.Lookup;
+import org.xbill.DNS.Record;
+import org.xbill.DNS.SRVRecord;
+import org.xbill.DNS.TextParseException;
+import org.xbill.DNS.Type;
 
 public class MinecraftPing {
 
     private static final Gson GSON = new Gson();
+    private static final String SRV_QUERY_PREFIX = "_minecraft._tcp.%s";
 
     /**
      * Fetches a {@link MinecraftPingReply} for the supplied hostname.
      * <b>Assumed timeout of 2s and port of 25565.</b>
      *
-     * @param hostname - a valid String hostname
+     * @param address - a valid String hostname
      * @return {@link MinecraftPingReply}
      * @throws IOException
      */
-    public static MinecraftPingReply getPing(final String hostname) throws IOException {
-        return getPing(MinecraftPingOptions.builder().hostname(hostname).build());
+    public static MinecraftPingReply getPing(final String address) throws IOException {
+        return getPing(MinecraftPingOptions.builder().hostname(address).build());
     }
 
     /**
@@ -69,11 +75,32 @@ public class MinecraftPing {
         Preconditions.checkNotNull(options.getHostname(), "Hostname cannot be null.");
         Preconditions.checkNotNull(options.getPort(), "Hostname cannot be null.");
 
+        String hostname = options.getHostname();
+        int port = options.getPort();
+
+        try {
+
+            Record[] records = new Lookup(String.format(SRV_QUERY_PREFIX, hostname), Type.SRV).run();
+
+            if (records != null) {
+
+                for (Record record : records) {
+                    SRVRecord srv = (SRVRecord) record;
+
+                    hostname = srv.getTarget().toString().replaceFirst("\\.$", "");
+                    port = srv.getPort();
+                }
+
+            }
+        } catch (TextParseException e) {
+            e.printStackTrace();
+        }
+
         String json;
 
         try (final Socket socket = new Socket()) {
 
-            socket.connect(new InetSocketAddress(options.getHostname(), options.getPort()), options.getTimeout());
+            socket.connect(new InetSocketAddress(hostname, port), options.getTimeout());
 
             try (DataInputStream in = new DataInputStream(socket.getInputStream())) {
                 try (DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
