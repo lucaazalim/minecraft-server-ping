@@ -73,7 +73,7 @@ public class MinecraftPing {
     public static MinecraftPingReply getPing(final MinecraftPingOptions options) throws IOException {
 
         Preconditions.checkNotNull(options.getHostname(), "Hostname cannot be null.");
-        Preconditions.checkNotNull(options.getPort(), "Hostname cannot be null.");
+        Preconditions.checkNotNull(options.getPort(), "Port cannot be null.");
 
         String hostname = options.getHostname();
         int port = options.getPort();
