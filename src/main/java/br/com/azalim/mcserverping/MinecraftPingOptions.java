@@ -26,7 +26,7 @@
  * authors and contributors and should not be interpreted as representing official policies,
  * either expressed or implied, of anybody else.
  */
-package ch.jamiete.mcping;
+package br.com.azalim.mcserverping;
 
 import com.google.common.base.Charsets;
 import lombok.Builder;
