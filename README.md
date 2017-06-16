@@ -1,4 +1,4 @@
-MinecraftServerPing
+MCServerPing
 ===================
 
 MCServerPing is a quick and easy Java API for grabbing Minecraft server information. It allows you to access information sent to the client to display on the server list. Currently, information available is:
