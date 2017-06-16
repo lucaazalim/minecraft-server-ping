@@ -20,7 +20,7 @@ If you require compatibility with the previous packets, use the [alpha tag](http
 
 The latest version of MCServerPing is based heavily upon the work of [zh32](https://gist.github.com/zh32/7190955).
 
-###Configuration
+## Configuration
 Configuration is provided through the `MinecraftPingOptions` class. This class provides the following configuration options:
 
  * `String` hostname *(hostname of the server to query, **required**)*
@@ -28,7 +28,7 @@ Configuration is provided through the `MinecraftPingOptions` class. This class p
  * `int` timeout *(socket timeout in ms, **optional** default `2000`)*
  * `String` charset *(charset for MOTD byte->string, **optional** default `UTF-8`)*
 
-###Example
+## Example
 
 MinecraftServerPing is very easy to use and implement into any project. Simply clone the repo, compile the code and add it to your build path. Coding with it is as simple as this too:
 
