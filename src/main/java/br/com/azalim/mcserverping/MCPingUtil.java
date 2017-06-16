@@ -33,7 +33,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-public class MinecraftPingUtil {
+public class MCPingUtil {
 
     public static final byte PACKET_HANDSHAKE = 0x00,
             PACKET_STATUSREQUEST = 0x00,

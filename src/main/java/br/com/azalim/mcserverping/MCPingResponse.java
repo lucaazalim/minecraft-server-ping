@@ -28,6 +28,7 @@
  */
 package br.com.azalim.mcserverping;
 
+import com.sun.istack.internal.Nullable;
 import java.util.List;
 import lombok.Getter;
 import lombok.ToString;
@@ -38,7 +39,7 @@ import lombok.ToString;
  */
 @Getter
 @ToString
-public class MinecraftPingReply {
+public class MCPingResponse {
 
     /**
      * @return the MOTD
@@ -70,7 +71,7 @@ public class MinecraftPingReply {
         private String text;
 
         public String getStrippedText() {
-            return MinecraftPingUtil.stripColors(this.text);
+            return MCPingUtil.stripColors(this.text);
         }
 
     }
@@ -92,6 +93,7 @@ public class MinecraftPingReply {
         /**
          * @return List of some players (if any) specified by server
          */
+        @Nullable
         private List<Player> sample;
 
     }

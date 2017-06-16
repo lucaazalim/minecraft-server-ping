@@ -46,34 +46,33 @@ import org.xbill.DNS.SRVRecord;
 import org.xbill.DNS.TextParseException;
 import org.xbill.DNS.Type;
 
-public class MinecraftPing {
+public class MCPing {
 
     private static final Gson GSON = new Gson();
     private static final String SRV_QUERY_PREFIX = "_minecraft._tcp.%s";
 
     /**
-     * Fetches a {@link MinecraftPingReply} for the supplied hostname.
+     * Fetches a {@link MCPingResponsew} for the supplied hostname.
      * <b>Assumed timeout of 2s and port of 25565.</b>
      *
      * @param address - a valid String hostname
-     * @return {@link MinecraftPingReply}
+     * @return {@link MCPingResponsew}
      * @throws IOException
      */
-    public static MinecraftPingReply getPing(final String address) throws IOException {
-        return getPing(MinecraftPingOptions.builder().hostname(address).build());
+    public static MCPingResponse getPing(final String address) throws IOException {
+        return getPing(MCPingOptions.builder().hostname(address).build());
     }
 
     /**
-     * Fetches a {@link MinecraftPingReply} for the supplied options.
+     * Fetches a {@link MCPingResponsew} for the supplied options.
      *
-     * @param options - a filled instance of {@link MinecraftPingOptions}
-     * @return {@link MinecraftPingReply}
+     * @param options - a filled instance of {@link MCPingOptions}
+     * @return {@link MCPingResponsew}
      * @throws IOException
      */
-    public static MinecraftPingReply getPing(final MinecraftPingOptions options) throws IOException {
+    public static MCPingResponse getPing(final MCPingOptions options) throws IOException {
 
         Preconditions.checkNotNull(options.getHostname(), "Hostname cannot be null.");
-        Preconditions.checkNotNull(options.getPort(), "Port cannot be null.");
 
         String hostname = options.getHostname();
         int port = options.getPort();
@@ -109,30 +108,30 @@ public class MinecraftPing {
                     try (ByteArrayOutputStream handshake_bytes = new ByteArrayOutputStream()) {
                         try (DataOutputStream handshake = new DataOutputStream(handshake_bytes)) {
 
-                            handshake.writeByte(MinecraftPingUtil.PACKET_HANDSHAKE);
-                            MinecraftPingUtil.writeVarInt(handshake, MinecraftPingUtil.PROTOCOL_VERSION);
-                            MinecraftPingUtil.writeVarInt(handshake, options.getHostname().length());
+                            handshake.writeByte(MCPingUtil.PACKET_HANDSHAKE);
+                            MCPingUtil.writeVarInt(handshake, MCPingUtil.PROTOCOL_VERSION);
+                            MCPingUtil.writeVarInt(handshake, options.getHostname().length());
                             handshake.writeBytes(options.getHostname());
                             handshake.writeShort(options.getPort());
-                            MinecraftPingUtil.writeVarInt(handshake, MinecraftPingUtil.STATUS_HANDSHAKE);
+                            MCPingUtil.writeVarInt(handshake, MCPingUtil.STATUS_HANDSHAKE);
 
-                            MinecraftPingUtil.writeVarInt(out, handshake_bytes.size());
+                            MCPingUtil.writeVarInt(out, handshake_bytes.size());
                             out.write(handshake_bytes.toByteArray());
 
                             //> Status request
                             out.writeByte(0x01); // Size of packet
-                            out.writeByte(MinecraftPingUtil.PACKET_STATUSREQUEST);
+                            out.writeByte(MCPingUtil.PACKET_STATUSREQUEST);
 
                             //< Status response
-                            MinecraftPingUtil.readVarInt(in); // Size
-                            int id = MinecraftPingUtil.readVarInt(in);
+                            MCPingUtil.readVarInt(in); // Size
+                            int id = MCPingUtil.readVarInt(in);
 
-                            MinecraftPingUtil.io(id == -1, "Server prematurely ended stream.");
-                            MinecraftPingUtil.io(id != MinecraftPingUtil.PACKET_STATUSREQUEST, "Server returned invalid packet.");
+                            MCPingUtil.io(id == -1, "Server prematurely ended stream.");
+                            MCPingUtil.io(id != MCPingUtil.PACKET_STATUSREQUEST, "Server returned invalid packet.");
 
-                            int length = MinecraftPingUtil.readVarInt(in);
-                            MinecraftPingUtil.io(length == -1, "Server prematurely ended stream.");
-                            MinecraftPingUtil.io(length == 0, "Server returned unexpected value.");
+                            int length = MCPingUtil.readVarInt(in);
+                            MCPingUtil.io(length == -1, "Server prematurely ended stream.");
+                            MCPingUtil.io(length == 0, "Server returned unexpected value.");
 
                             byte[] data = new byte[length];
                             in.readFully(data);
@@ -140,14 +139,14 @@ public class MinecraftPing {
 
                             //> Ping
                             out.writeByte(0x09); // Size of packet
-                            out.writeByte(MinecraftPingUtil.PACKET_PING);
+                            out.writeByte(MCPingUtil.PACKET_PING);
                             out.writeLong(System.currentTimeMillis());
 
                             //< Ping
-                            MinecraftPingUtil.readVarInt(in); // Size
-                            id = MinecraftPingUtil.readVarInt(in);
-                            MinecraftPingUtil.io(id == -1, "Server prematurely ended stream.");
-                            MinecraftPingUtil.io(id != MinecraftPingUtil.PACKET_PING, "Server returned invalid packet.");
+                            MCPingUtil.readVarInt(in); // Size
+                            id = MCPingUtil.readVarInt(in);
+                            MCPingUtil.io(id == -1, "Server prematurely ended stream.");
+                            MCPingUtil.io(id != MCPingUtil.PACKET_PING, "Server returned invalid packet.");
 
                         }
                     }
@@ -163,7 +162,7 @@ public class MinecraftPing {
             jsonObject.add("description", descriptionJsonObject);
         }
 
-        return GSON.fromJson(jsonObject, MinecraftPingReply.class);
+        return GSON.fromJson(jsonObject, MCPingResponse.class);
     }
 
 }

@@ -36,19 +36,21 @@ import lombok.Getter;
  * Storage class for {@link MinecraftPing} options.
  */
 @Builder
-public class MinecraftPingOptions {
+public class MCPingOptions {
 
     @Getter
-    private final String hostname, charset;
+    private String hostname;
 
     @Getter
-    private final int port, timeout;
+    @Builder.Default
+    private String charset = Charsets.UTF_8.displayName();
 
-    public static class MinecraftPingOptionsBuilder {
+    @Getter
+    @Builder.Default
+    private int port = 25565;
 
-        private int port = 25565;
-        private int timeout = 2000;
-        private String charset = Charsets.UTF_8.displayName();
-    }
+    @Getter
+    @Builder.Default
+    private int timeout = 5000;
 
 }
