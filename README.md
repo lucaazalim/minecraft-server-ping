@@ -5,6 +5,8 @@ About this fork
  * Allows you to retrieve Text Component based MOTDs;
  * Much more.
 
+Feel free to create an issue if you have doubts or improvements/funcionalities suggestions.
+
 MinecraftServerPing
 ===================
 
