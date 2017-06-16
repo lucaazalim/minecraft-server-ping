@@ -10,19 +10,24 @@ Feel free to create an issue if you have doubts or improvements/features suggest
 MinecraftServerPing
 ===================
 
-MinecraftServerPing is a quick and easy Java API for grabbing Minecraft server information. It allows you to access information sent to the client to display on the server list. Currently, information available is:
+MCServerPing is a quick and easy Java API for grabbing Minecraft server information. It allows you to access information sent to the client to display on the server list. Currently, information available is:
 
- * MOTD and favicon
+ * String and Text Component based MOTD 
+ * Favicon
  * Server and protocol versions
  * Player counts and samples
+ 
+Some additional features:
 
-*MinecraftServerPing requires [Gson](https://code.google.com/p/google-gson/) by Google to function.*
+ * Provides a simple built-in SRV resolver
+ * Allows you to retrieve Text Component based MOTD
+ * Much more
 
 Please leave the copyright notice intact in source if you copy source into your code rather than build path.
 
 If you require compatibility with the previous packets, use the [alpha tag](https://github.com/jamietech/MinecraftServerPing/releases/tag/alpha).
 
-The latest version of MinecraftServerPing is based heavily upon the work of [zh32](https://gist.github.com/zh32/7190955).
+The latest version of MCServerPing is based heavily upon the work of [zh32](https://gist.github.com/zh32/7190955).
 
 ###Configuration
 Configuration is provided through the `MinecraftPingOptions` class. This class provides the following configuration options:
