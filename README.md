@@ -1,12 +1,3 @@
-About this fork
-===============
-
- * Provides a simple built-in SRV resolver;
- * Allows you to retrieve Text Component based MOTDs;
- * Much more.
-
-Feel free to create an issue if you have doubts or improvements/features suggestions.
-
 MinecraftServerPing
 ===================
 
