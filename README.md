@@ -43,3 +43,5 @@ MinecraftPingReply data = MinecraftPing.getPing(options);
 System.out.println(data.getDescription() + "  --  " + data.getPlayers().getOnline() + "/" + data.getPlayers().getMax());
 
 ```
+
+An example class is available [here](https://github.com/lucaazalim/MCServerPing/blob/master/src/main/java/br/com/azalim/mcserverping/examples/MCPingExample.java).
