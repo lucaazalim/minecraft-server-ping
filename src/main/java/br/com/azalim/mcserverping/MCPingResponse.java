@@ -28,7 +28,6 @@
  */
 package br.com.azalim.mcserverping;
 
-import com.sun.istack.internal.Nullable;
 import java.util.List;
 import lombok.Getter;
 import lombok.ToString;
@@ -93,7 +92,6 @@ public class MCPingResponse {
         /**
          * @return List of some players (if any) specified by server
          */
-        @Nullable
         private List<Player> sample;
 
     }
