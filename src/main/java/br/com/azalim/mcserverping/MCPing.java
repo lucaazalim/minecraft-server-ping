@@ -101,57 +101,54 @@ public class MCPing {
 
             socket.connect(new InetSocketAddress(hostname, port), options.getTimeout());
 
-            try (DataInputStream in = new DataInputStream(socket.getInputStream())) {
-                try (DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
-
+            try (DataInputStream in = new DataInputStream(socket.getInputStream());
+                    DataOutputStream out = new DataOutputStream(socket.getOutputStream());
                     //> Handshake
-                    try (ByteArrayOutputStream handshake_bytes = new ByteArrayOutputStream()) {
-                        try (DataOutputStream handshake = new DataOutputStream(handshake_bytes)) {
+                    ByteArrayOutputStream handshake_bytes = new ByteArrayOutputStream();
+                    DataOutputStream handshake = new DataOutputStream(handshake_bytes)) {
 
-                            handshake.writeByte(MCPingUtil.PACKET_HANDSHAKE);
-                            MCPingUtil.writeVarInt(handshake, MCPingUtil.PROTOCOL_VERSION);
-                            MCPingUtil.writeVarInt(handshake, options.getHostname().length());
-                            handshake.writeBytes(options.getHostname());
-                            handshake.writeShort(options.getPort());
-                            MCPingUtil.writeVarInt(handshake, MCPingUtil.STATUS_HANDSHAKE);
+                handshake.writeByte(MCPingUtil.PACKET_HANDSHAKE);
+                MCPingUtil.writeVarInt(handshake, MCPingUtil.PROTOCOL_VERSION);
+                MCPingUtil.writeVarInt(handshake, options.getHostname().length());
+                handshake.writeBytes(options.getHostname());
+                handshake.writeShort(options.getPort());
+                MCPingUtil.writeVarInt(handshake, MCPingUtil.STATUS_HANDSHAKE);
 
-                            MCPingUtil.writeVarInt(out, handshake_bytes.size());
-                            out.write(handshake_bytes.toByteArray());
+                MCPingUtil.writeVarInt(out, handshake_bytes.size());
+                out.write(handshake_bytes.toByteArray());
 
-                            //> Status request
-                            out.writeByte(0x01); // Size of packet
-                            out.writeByte(MCPingUtil.PACKET_STATUSREQUEST);
+                //> Status request
+                out.writeByte(0x01); // Size of packet
+                out.writeByte(MCPingUtil.PACKET_STATUSREQUEST);
 
-                            //< Status response
-                            MCPingUtil.readVarInt(in); // Size
-                            int id = MCPingUtil.readVarInt(in);
+                //< Status response
+                MCPingUtil.readVarInt(in); // Size
+                int id = MCPingUtil.readVarInt(in);
 
-                            MCPingUtil.io(id == -1, "Server prematurely ended stream.");
-                            MCPingUtil.io(id != MCPingUtil.PACKET_STATUSREQUEST, "Server returned invalid packet.");
+                MCPingUtil.io(id == -1, "Server prematurely ended stream.");
+                MCPingUtil.io(id != MCPingUtil.PACKET_STATUSREQUEST, "Server returned invalid packet.");
 
-                            int length = MCPingUtil.readVarInt(in);
-                            MCPingUtil.io(length == -1, "Server prematurely ended stream.");
-                            MCPingUtil.io(length == 0, "Server returned unexpected value.");
+                int length = MCPingUtil.readVarInt(in);
+                MCPingUtil.io(length == -1, "Server prematurely ended stream.");
+                MCPingUtil.io(length == 0, "Server returned unexpected value.");
 
-                            byte[] data = new byte[length];
-                            in.readFully(data);
-                            json = new String(data, options.getCharset());
+                byte[] data = new byte[length];
+                in.readFully(data);
+                json = new String(data, options.getCharset());
 
-                            //> Ping
-                            out.writeByte(0x09); // Size of packet
-                            out.writeByte(MCPingUtil.PACKET_PING);
-                            out.writeLong(System.currentTimeMillis());
+                //> Ping
+                out.writeByte(0x09); // Size of packet
+                out.writeByte(MCPingUtil.PACKET_PING);
+                out.writeLong(System.currentTimeMillis());
 
-                            //< Ping
-                            MCPingUtil.readVarInt(in); // Size
-                            id = MCPingUtil.readVarInt(in);
-                            MCPingUtil.io(id == -1, "Server prematurely ended stream.");
-                            MCPingUtil.io(id != MCPingUtil.PACKET_PING, "Server returned invalid packet.");
+                //< Ping
+                MCPingUtil.readVarInt(in); // Size
+                id = MCPingUtil.readVarInt(in);
+                MCPingUtil.io(id == -1, "Server prematurely ended stream.");
+                MCPingUtil.io(id != MCPingUtil.PACKET_PING, "Server returned invalid packet.");
 
-                        }
-                    }
-                }
             }
+
         }
 
         JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
