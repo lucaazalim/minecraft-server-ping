@@ -103,7 +103,6 @@ public class MCPing {
             long start = System.currentTimeMillis();
             socket.connect(new InetSocketAddress(hostname, port), options.getTimeout());
             ping = System.currentTimeMillis() - start;
-            System.out.println("DEBUG -> " + ping);
 
             try (DataInputStream in = new DataInputStream(socket.getInputStream());
                     DataOutputStream out = new DataOutputStream(socket.getOutputStream());
