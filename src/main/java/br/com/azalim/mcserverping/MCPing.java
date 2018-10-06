@@ -96,10 +96,14 @@ public class MCPing {
         }
 
         String json;
+        long ping = -1;
 
         try (final Socket socket = new Socket()) {
 
+            long start = System.currentTimeMillis();
             socket.connect(new InetSocketAddress(hostname, port), options.getTimeout());
+            ping = System.currentTimeMillis() - start;
+            System.out.println("DEBUG -> " + ping);
 
             try (DataInputStream in = new DataInputStream(socket.getInputStream());
                     DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -158,8 +162,11 @@ public class MCPing {
             descriptionJsonObject.addProperty("text", new TextComponent(ComponentSerializer.parse(descriptionJsonObject.get("extra").getAsJsonArray().toString())).toLegacyText());
             jsonObject.add("description", descriptionJsonObject);
         }
+        
+        MCPingResponse output = GSON.fromJson(jsonObject, MCPingResponse.class);
+        output.setPing(ping);
 
-        return GSON.fromJson(jsonObject, MCPingResponse.class);
+        return output;
     }
 
 }

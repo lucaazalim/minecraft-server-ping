@@ -30,6 +30,7 @@ package br.com.azalim.mcserverping;
 
 import java.util.List;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -59,6 +60,12 @@ public class MCPingResponse {
      * @return Base64 encoded favicon image
      */
     private String favicon;
+
+    /**
+     * @return Ping in ms.
+     */
+    @Setter
+    private long ping;
 
     @Getter
     @ToString
