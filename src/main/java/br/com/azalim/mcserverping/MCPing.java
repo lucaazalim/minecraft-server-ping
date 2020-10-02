@@ -136,7 +136,6 @@ public class MCPing {
                 byte[] data = new byte[length];
                 in.readFully(data);
                 json = new String(data, options.getCharset());
-                System.out.println("[LUCA/DBG] [MCPing::getPing::141] " + json);
 
                 //> Ping
                 out.writeByte(0x09); // Size of packet
