@@ -30,21 +30,19 @@ package br.com.azalim.mcserverping;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.chat.ComponentSerializer;
+import org.xbill.DNS.*;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.chat.ComponentSerializer;
-import org.xbill.DNS.Lookup;
-import org.xbill.DNS.Record;
-import org.xbill.DNS.SRVRecord;
-import org.xbill.DNS.TextParseException;
-import org.xbill.DNS.Type;
 
 public class MCPing {
 
@@ -105,10 +103,10 @@ public class MCPing {
             ping = System.currentTimeMillis() - start;
 
             try (DataInputStream in = new DataInputStream(socket.getInputStream());
-                    DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-                    //> Handshake
-                    ByteArrayOutputStream handshake_bytes = new ByteArrayOutputStream();
-                    DataOutputStream handshake = new DataOutputStream(handshake_bytes)) {
+                 DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                 //> Handshake
+                 ByteArrayOutputStream handshake_bytes = new ByteArrayOutputStream();
+                 DataOutputStream handshake = new DataOutputStream(handshake_bytes)) {
 
                 handshake.writeByte(MCPingUtil.PACKET_HANDSHAKE);
                 MCPingUtil.writeVarInt(handshake, MCPingUtil.PROTOCOL_VERSION);
@@ -138,6 +136,7 @@ public class MCPing {
                 byte[] data = new byte[length];
                 in.readFully(data);
                 json = new String(data, options.getCharset());
+                System.out.println("[LUCA/DBG] [MCPing::getPing::141] " + json);
 
                 //> Ping
                 out.writeByte(0x09); // Size of packet
@@ -155,13 +154,30 @@ public class MCPing {
         }
 
         JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
-        JsonObject descriptionJsonObject = jsonObject.get("description").getAsJsonObject();
+        JsonElement descriptionJsonElement = jsonObject.get("description");
 
-        if (descriptionJsonObject.has("extra")) {
-            descriptionJsonObject.addProperty("text", new TextComponent(ComponentSerializer.parse(descriptionJsonObject.get("extra").getAsJsonArray().toString())).toLegacyText());
+        if (descriptionJsonElement.isJsonObject()) {
+
+            // For those versions that work with TextComponent MOTDs
+
+            JsonObject descriptionJsonObject = jsonObject.get("description").getAsJsonObject();
+
+            if (descriptionJsonObject.has("extra")) {
+                descriptionJsonObject.addProperty("text", new TextComponent(ComponentSerializer.parse(descriptionJsonObject.get("extra").getAsJsonArray().toString())).toLegacyText());
+                jsonObject.add("description", descriptionJsonObject);
+            }
+
+        } else {
+
+            // For those versions that work with String MOTDs
+
+            String description = descriptionJsonElement.getAsString();
+            JsonObject descriptionJsonObject = new JsonObject();
+            descriptionJsonObject.addProperty("text", description);
             jsonObject.add("description", descriptionJsonObject);
+
         }
-        
+
         MCPingResponse output = GSON.fromJson(jsonObject, MCPingResponse.class);
         output.setPing(ping);
 
