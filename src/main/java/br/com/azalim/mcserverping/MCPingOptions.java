@@ -33,7 +33,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * Storage class for {@link MinecraftPing} options.
+ * Storage class for {@link MCPing} options.
  */
 @Builder
 public class MCPingOptions {
