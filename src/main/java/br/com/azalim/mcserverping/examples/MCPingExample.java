@@ -16,7 +16,7 @@ public class MCPingExample {
     public static void main(String[] args) {
 
         MCPingOptions options = MCPingOptions.builder()
-                .hostname("skyminigames.com.br")
+                .hostname("redesky.com")
                 .build();
 
         MCPingResponse reply;
