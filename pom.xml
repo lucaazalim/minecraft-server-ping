@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>br.com.azalim</groupId>
     <artifactId>mcserverping</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
     
     <name>MCServerPing</name>
@@ -19,7 +19,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/lucaazalim/${project.artifactId}</url>
+            <url>https://maven.pkg.github.com/lucaazalim/minecraft-server-ping</url>
         </repository>
     </distributionManagement>
     
