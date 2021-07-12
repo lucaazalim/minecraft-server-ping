@@ -34,13 +34,13 @@ MinecraftServerPing is very easy to use and implement into any project. Simply c
 
 ```java
 
-MinecraftPingOptions options = MinecraftPingOptions.builder()
+MCPingOptions options = MCPingOptions.builder()
   .hostname("example.com")
   .port(25565)
   .build();
 
-MinecraftPingReply data = MinecraftPing.getPing(options);      
-System.out.println(data.getDescription() + "  --  " + data.getPlayers().getOnline() + "/" + data.getPlayers().getMax());
+MCPingResponse data = MCPing.getPing(options);      
+System.out.println(data.getDescription().getStrippedText() + "  --  " + data.getPlayers().getOnline() + "/" + data.getPlayers().getMax());
 
 ```
 
