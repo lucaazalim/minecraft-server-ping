@@ -1,2 +1,9 @@
-/JavaApplication2/nbproject/private/
 /target
+
+# IntelliJ
+out/
+.idea/
+.idea_modules/
+*.iml
+*.ipr
+*.iws

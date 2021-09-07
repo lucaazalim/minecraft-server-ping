@@ -42,7 +42,7 @@ public class MCPingUtil {
     public static final int STATUS_HANDSHAKE = 1;
 
     public static final char COLOR_CHAR = '\u00A7';
-    private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf(COLOR_CHAR) + "[0-9A-FK-OR]");
+    private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + COLOR_CHAR + "([0-9A-FK-OR]|#[0-9A-Fa-f]{3,6})");
 
     /**
      * Strips the given message of all color codes
