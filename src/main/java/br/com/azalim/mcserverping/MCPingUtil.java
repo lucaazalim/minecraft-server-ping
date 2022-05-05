@@ -38,11 +38,10 @@ public class MCPingUtil {
     public static final byte PACKET_HANDSHAKE = 0x00,
             PACKET_STATUSREQUEST = 0x00,
             PACKET_PING = 0x01;
-    public static final int PROTOCOL_VERSION = 4;
     public static final int STATUS_HANDSHAKE = 1;
 
     public static final char COLOR_CHAR = '\u00A7';
-    private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + COLOR_CHAR + "([0-9A-FK-OR]|#[0-9A-Fa-f]{3,6})");
+    private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + COLOR_CHAR + "([0-9A-FK-ORX]|#[0-9A-Fa-f]{3,6})");
 
     /**
      * Strips the given message of all color codes
