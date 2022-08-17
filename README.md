@@ -27,6 +27,7 @@ Configuration is provided through the `MinecraftPingOptions` class. This class p
  * `int` port *(port of the server to query, **optional** default `25565`)*
  * `int` timeout *(socket timeout in ms, **optional** default `2000`)*
  * `String` charset *(charset for MOTD byte->string, **optional** default `UTF-8`)*
+ * `int` protocolVersion *(protocol version to ping the server with, **optional** default `4`)*
 
 ## Example
 

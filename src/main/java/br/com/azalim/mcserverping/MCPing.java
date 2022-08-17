@@ -110,7 +110,7 @@ public class MCPing {
                  DataOutputStream handshake = new DataOutputStream(handshake_bytes)) {
 
                 handshake.writeByte(MCPingUtil.PACKET_HANDSHAKE);
-                MCPingUtil.writeVarInt(handshake, MCPingUtil.PROTOCOL_VERSION);
+                MCPingUtil.writeVarInt(handshake, options.getProtocolVersion());
                 MCPingUtil.writeVarInt(handshake, options.getHostname().length());
                 handshake.writeBytes(options.getHostname());
                 handshake.writeShort(options.getPort());
