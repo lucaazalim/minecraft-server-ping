@@ -180,7 +180,9 @@ public class MCPing {
 
         MCPingResponse output = GSON.fromJson(jsonObject, MCPingResponse.class);
         output.setPing(ping);
-
+        output.setHostname(hostname);
+        output.setPort(port);
+        
         return output;
     }
 

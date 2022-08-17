@@ -29,6 +29,8 @@
 package br.com.azalim.mcserverping;
 
 import java.util.List;
+
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -64,8 +66,21 @@ public class MCPingResponse {
     /**
      * @return Ping in ms.
      */
-    @Setter
+    @Setter(value = AccessLevel.PACKAGE)
     private long ping;
+    
+    /**
+     * @return Host name, will show real IP if using SRV record
+     */
+    @Setter(value = AccessLevel.PACKAGE)
+    private String hostname;
+    
+    /**
+     * @return Port, will show real port if using SRV record
+     */
+    @Setter(value = AccessLevel.PACKAGE)
+    private long port;
+
 
     @Getter
     @ToString
