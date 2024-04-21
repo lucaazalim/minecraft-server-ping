@@ -99,6 +99,7 @@ public class MCPing {
 
         try (final Socket socket = new Socket()) {
 
+            socket.setSoTimeout(options.getReadTimeout());
             long start = System.currentTimeMillis();
             socket.connect(new InetSocketAddress(hostname, port), options.getTimeout());
             ping = System.currentTimeMillis() - start;
