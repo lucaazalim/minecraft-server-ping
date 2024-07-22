@@ -36,7 +36,7 @@
         <dependency>
             <groupId>dnsjava</groupId>
             <artifactId>dnsjava</artifactId>
-            <version>3.5.2</version>
+            <version>3.6.0</version>
         </dependency>
 
         <!-- Needed for MCPingOptions & MCPingResponse Annotations -->
