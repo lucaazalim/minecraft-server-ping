@@ -55,6 +55,10 @@ public class MCPingOptions {
 
     @Getter
     @Builder.Default
+    private int readTimeout = 5000;
+
+    @Getter
+    @Builder.Default
     private int protocolVersion = 4;
 
 }
