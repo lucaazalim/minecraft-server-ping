@@ -1,5 +1,9 @@
 package br.com.azalim.mcserverping.examples;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import br.com.azalim.mcserverping.MCPing;
 import br.com.azalim.mcserverping.MCPingOptions;
 import br.com.azalim.mcserverping.MCPingResponse;
@@ -7,16 +11,14 @@ import br.com.azalim.mcserverping.MCPingResponse.Description;
 import br.com.azalim.mcserverping.MCPingResponse.Player;
 import br.com.azalim.mcserverping.MCPingResponse.Players;
 import br.com.azalim.mcserverping.MCPingResponse.Version;
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class MCPingExample {
 
     public static void main(String[] args) {
 
         MCPingOptions options = MCPingOptions.builder()
-                .hostname("redesky.com")
+                .timeout(3000)
+                .hostname("mc.hypixel.net")
                 .build();
 
         MCPingResponse reply;
@@ -51,8 +53,7 @@ public class MCPingExample {
         if (sample != null) {
             System.out.println("    Players: " + players.getSample().stream()
                     .map(player -> String.format("%s@%s", player.getName(), player.getId()))
-                    .collect(Collectors.joining(", "))
-            );
+                    .collect(Collectors.joining(", ")));
             System.out.println();
         }
 
