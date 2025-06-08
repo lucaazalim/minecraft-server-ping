@@ -2,6 +2,7 @@
 
 # IntelliJ
 out/
+.vscode/
 .idea/
 .idea_modules/
 *.iml
