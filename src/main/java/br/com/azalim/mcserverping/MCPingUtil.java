@@ -60,10 +60,6 @@ public class MCPingUtil {
         }
     }
 
-    /**
-     * @author thinkofdeath See:
-     *         https://gist.github.com/thinkofdeath/e975ddee04e9c87faf22
-     */
     public static int readVarInt(DataInputStream in) throws IOException {
         int i = 0;
         int j = 0;
@@ -84,11 +80,6 @@ public class MCPingUtil {
         return i;
     }
 
-    /**
-     * @author thinkofdeath See:
-     *         https://gist.github.com/thinkofdeath/e975ddee04e9c87faf22
-     * @throws IOException
-     */
     public static void writeVarInt(DataOutputStream out, int paramInt) throws IOException {
         while (true) {
             if ((paramInt & 0xFFFFFF80) == 0) {
