@@ -41,7 +41,8 @@ public class MCPingUtil {
     public static final int STATUS_HANDSHAKE = 1;
 
     public static final char COLOR_CHAR = '\u00A7';
-    private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + COLOR_CHAR + "([0-9A-FK-ORX]|#[0-9A-Fa-f]{3,6})");
+    private static final Pattern STRIP_COLOR_PATTERN = Pattern
+            .compile("(?i)" + COLOR_CHAR + "([0-9A-FK-ORX]|#[0-9A-Fa-f]{3,6})");
 
     /**
      * Strips the given message of all color codes
@@ -61,7 +62,7 @@ public class MCPingUtil {
 
     /**
      * @author thinkofdeath See:
-     * https://gist.github.com/thinkofdeath/e975ddee04e9c87faf22
+     *         https://gist.github.com/thinkofdeath/e975ddee04e9c87faf22
      */
     public static int readVarInt(DataInputStream in) throws IOException {
         int i = 0;
@@ -85,7 +86,7 @@ public class MCPingUtil {
 
     /**
      * @author thinkofdeath See:
-     * https://gist.github.com/thinkofdeath/e975ddee04e9c87faf22
+     *         https://gist.github.com/thinkofdeath/e975ddee04e9c87faf22
      * @throws IOException
      */
     public static void writeVarInt(DataOutputStream out, int paramInt) throws IOException {

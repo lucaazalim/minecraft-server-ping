@@ -68,19 +68,18 @@ public class MCPingResponse {
      */
     @Setter(value = AccessLevel.PACKAGE)
     private long ping;
-    
+
     /**
      * @return Host name, will show real IP if using SRV record
      */
     @Setter(value = AccessLevel.PACKAGE)
     private String hostname;
-    
+
     /**
      * @return Port, will show real port if using SRV record
      */
     @Setter(value = AccessLevel.PACKAGE)
     private long port;
-
 
     @Getter
     @ToString

@@ -29,6 +29,7 @@
 package br.com.azalim.mcserverping;
 
 import com.google.common.base.Charsets;
+
 import lombok.Builder;
 import lombok.Getter;
 

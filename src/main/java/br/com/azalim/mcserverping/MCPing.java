@@ -28,22 +28,27 @@
  */
 package br.com.azalim.mcserverping;
 
-import com.google.common.base.Preconditions;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.chat.ComponentSerializer;
-import org.xbill.DNS.*;
-import org.xbill.DNS.Record;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+
+import org.xbill.DNS.Lookup;
+import org.xbill.DNS.Record;
+import org.xbill.DNS.SRVRecord;
+import org.xbill.DNS.TextParseException;
+import org.xbill.DNS.Type;
+
+import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.chat.ComponentSerializer;
 
 public class MCPing {
 
@@ -105,10 +110,10 @@ public class MCPing {
             ping = System.currentTimeMillis() - start;
 
             try (DataInputStream in = new DataInputStream(socket.getInputStream());
-                 DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-                 //> Handshake
-                 ByteArrayOutputStream handshake_bytes = new ByteArrayOutputStream();
-                 DataOutputStream handshake = new DataOutputStream(handshake_bytes)) {
+                    DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                    // > Handshake
+                    ByteArrayOutputStream handshake_bytes = new ByteArrayOutputStream();
+                    DataOutputStream handshake = new DataOutputStream(handshake_bytes)) {
 
                 handshake.writeByte(MCPingUtil.PACKET_HANDSHAKE);
                 MCPingUtil.writeVarInt(handshake, options.getProtocolVersion());
@@ -120,11 +125,11 @@ public class MCPing {
                 MCPingUtil.writeVarInt(out, handshake_bytes.size());
                 out.write(handshake_bytes.toByteArray());
 
-                //> Status request
+                // > Status request
                 out.writeByte(0x01); // Size of packet
                 out.writeByte(MCPingUtil.PACKET_STATUSREQUEST);
 
-                //< Status response
+                // < Status response
                 MCPingUtil.readVarInt(in); // Size
                 int id = MCPingUtil.readVarInt(in);
 
@@ -139,12 +144,12 @@ public class MCPing {
                 in.readFully(data);
                 json = new String(data, options.getCharset());
 
-                //> Ping
+                // > Ping
                 out.writeByte(0x09); // Size of packet
                 out.writeByte(MCPingUtil.PACKET_PING);
                 out.writeLong(System.currentTimeMillis());
 
-                //< Ping
+                // < Ping
                 MCPingUtil.readVarInt(in); // Size
                 id = MCPingUtil.readVarInt(in);
                 MCPingUtil.io(id == -1, "Server prematurely ended stream.");
@@ -154,7 +159,7 @@ public class MCPing {
 
         }
 
-        JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+        JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
         JsonElement descriptionJsonElement = jsonObject.get("description");
 
         if (descriptionJsonElement.isJsonObject()) {
@@ -164,7 +169,11 @@ public class MCPing {
             JsonObject descriptionJsonObject = jsonObject.get("description").getAsJsonObject();
 
             if (descriptionJsonObject.has("extra")) {
-                descriptionJsonObject.addProperty("text", new TextComponent(ComponentSerializer.parse(descriptionJsonObject.get("extra").getAsJsonArray().toString())).toLegacyText());
+                descriptionJsonObject
+                        .addProperty("text",
+                                new TextComponent(ComponentSerializer
+                                        .parse(descriptionJsonObject.get("extra").getAsJsonArray().toString()))
+                                        .toLegacyText());
                 jsonObject.add("description", descriptionJsonObject);
             }
 
@@ -183,7 +192,7 @@ public class MCPing {
         output.setPing(ping);
         output.setHostname(hostname);
         output.setPort(port);
-        
+
         return output;
     }
 
